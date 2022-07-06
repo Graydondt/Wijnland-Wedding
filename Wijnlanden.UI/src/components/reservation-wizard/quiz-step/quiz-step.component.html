@@ -1,0 +1,34 @@
+<ng-container *ngIf="groups.length">
+	<mat-divider></mat-divider>
+	<section class="header center">
+		GET TO KNOW OUR JOURNEY
+	</section>
+	<section class="center">
+		<p>
+			<i>
+				<small>The first 3 people to answer the following correctly will get a free gift at the wedding.<br>
+					<strong>*This is optional, but you won't be able to come back once you finish</strong></small>
+			</i>
+		</p>
+	</section>
+	<mat-divider></mat-divider>
+	<ng-container *ngFor="let group of groups">
+		<mat-radio-group aria-labelledby="radio-group-label"
+						 class="radio-group"
+						 [(ngModel)]="group.choice">
+			<h3 class="question-header">{{group.question}}</h3>
+			<mat-radio-button *ngFor="let option of group.options"
+							  class="option"
+							  [value]="option">
+				<span class="option-value">{{option}}</span>
+			</mat-radio-button>
+		</mat-radio-group>
+		<mat-divider></mat-divider>
+	</ng-container>
+
+	<div class="spacer"></div>
+	<button mat-raised-button
+			class="wizard-button white"
+			color="primary"
+			(click)="finish()">Finish</button>
+</ng-container>

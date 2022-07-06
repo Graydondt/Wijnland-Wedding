@@ -1,0 +1,191 @@
+<ng-container *ngIf="form && guest">
+	<div>
+		<div class="welcome-img"></div>
+		<span class="intro">
+			<p>Graydon & Cindi</p>
+		</span>
+		<form [formGroup]="form"
+			  class="center">
+			<mat-form-field appearance="standard">
+				<mat-label>Guest</mat-label>
+				<input matInput
+					   type="text"
+					   formControlName="firstName">
+			</mat-form-field>
+			<ng-container *ngIf="relatedPerson">
+				<mat-form-field appearance="standard">
+					<mat-icon *ngIf="relatedPerson.rsvp === rsvp.Yes"
+							  matTooltip="Has already confirmed their attendance"
+							  class="success confirm-icon"
+							  matSuffix>check_circle_outline</mat-icon>
+
+					<mat-icon *ngIf="relatedPerson.rsvp === rsvp.No"
+							  matTooltip="Has indicated that they won't be joining us"
+							  class="confirm-icon"
+							  color="warn"
+							  matSuffix>cancel</mat-icon>
+
+					<mat-icon *ngIf="relatedPerson.rsvp !== rsvp.No && relatedPerson.rsvp !== rsvp.Yes"
+							  matTooltip="Has not yet completed their Rsvp"
+							  class="confirm-icon"
+							  color="accent"
+							  matSuffix>help</mat-icon>
+					<mat-label>
+						Partner
+					</mat-label>
+					<input matInput
+						   type="text"
+						   formControlName="plusOne">
+
+
+				</mat-form-field>
+			</ng-container>
+			<app-venue-details></app-venue-details>
+			<section class="label">
+				WILL WE SEE YOU THERE?
+			</section>
+			<mat-divider></mat-divider>
+			<ng-container *ngIf="relatedPerson && showInclude">
+				<mat-slide-toggle [checked]="rsvpForPartner"
+								  (change)="changed()">RSVP for {{relatedPerson.name}}?
+				</mat-slide-toggle>
+			</ng-container>
+			<section>
+				<ng-container class="center"
+							  *ngIf="!rsvpForPartner; else plusOne">
+					<mat-radio-group aria-labelledby="radio-group-label"
+									 class="radio-group"
+									 formControlName="rsvp"
+									 (change)="change($event)">
+						<mat-radio-button class="radio-button"
+										  [value]="rsvp.Yes">
+							Yes, I am attending
+						</mat-radio-button>
+						<mat-radio-button class="radio-button"
+										  [value]="rsvp.No">
+							No, I will not be able to attend
+						</mat-radio-button>
+						<mat-radio-button class="radio-button"
+										  [value]="rsvp.Maybe">
+							I have not yet decided
+						</mat-radio-button>
+					</mat-radio-group>
+					<ng-container *ngIf="form && form.controls['rsvp'].value === rsvp.Yes">
+						<ng-container *ngIf="!relatedPerson">
+							<ng-container *ngIf="allowPlusOne">
+								<mat-divider></mat-divider>
+								<section class="label">
+									ARE YOU BRINGING SOMEONE ALONG?
+								</section>
+								<mat-divider></mat-divider>
+								<div class="spacer"></div>
+								<button mat-raised-button
+										(click)="openDialog()">
+									<mat-icon>group_add</mat-icon> Add Partner
+								</button>
+							</ng-container>
+						</ng-container>
+					</ng-container>
+
+					<ng-container *ngIf="form && form.controls['rsvp'].value === rsvp.Maybe">
+						<section>
+							<mat-checkbox color="primary"
+										  [labelPosition]="'before'"
+										  formControlName="rsvpReminder"
+										  (change)="setEmailReminder($event)">Email me a reminder closer to RSVP date
+							</mat-checkbox>
+						</section>
+
+					</ng-container>
+				</ng-container>
+				<ng-container *ngIf="!guest.done &&
+							  ((form.controls['rsvp'].value === rsvp.Maybe && guest.sendReminder ) ||
+							   form.controls['rsvp'].value === rsvp.Yes)">
+					<mat-form-field appearance="fill">
+						<mat-label>Email</mat-label>
+						<input matInput
+							   type="email"
+							   id="email"
+							   name="email"
+							   formControlName="email">
+						<mat-hint>We need this information to confrim your RSVP</mat-hint>
+						<mat-error *ngIf="hasError('email','email',form) && !hasError('email','required',form)">
+							Please enter a <strong>valid</strong> email address
+						</mat-error>
+						<mat-error *ngIf="hasError('email','required',form)">
+							Email is <strong>required</strong>
+						</mat-error>
+					</mat-form-field>
+					<mat-form-field appearance="fill">
+						<mat-label>Confirm Email</mat-label>
+						<input matInput
+							   type="email"
+							   id="confirmEmail"
+							   name="confirmEmail"
+							   formControlName="confirmEmail">
+						<mat-hint>Emails should match</mat-hint>
+						<mat-error *ngIf="hasError('confirmEmail','required',form)">
+							Email is <strong>required</strong>
+						</mat-error>
+						<mat-error
+								   *ngIf="!hasError('confirmEmail','required',form) && hasError('confirmEmail','notSame',form)">
+							Emails do <strong>not</strong> match
+						</mat-error>
+					</mat-form-field>
+				</ng-container>
+
+
+			</section>
+			<ng-container *ngIf="guest && guest.rsvp === rsvp.Yes">
+				<button mat-raised-button
+						class="wizard-button white"
+						color="primary"
+						matStepperNext
+						(click)="updatePerson()">Next</button>
+			</ng-container>
+			<ng-container *ngIf="guest && (guest.rsvp !== rsvp.Yes)">
+				<button mat-raised-button
+						class="wizard-button white"
+						color="primary"
+						(click)="save()">Finish</button>
+			</ng-container>
+
+		</form>
+	</div>
+</ng-container>
+
+<ng-template #plusOne>
+	<ng-container *ngIf="form">
+		<div [formGroup]="form">
+			<mat-radio-group aria-labelledby="radio-group-label"
+							 class="radio-group"
+							 formControlName="rsvp"
+							 (change)="change($event)">
+				<mat-radio-button class="radio-button"
+								  [value]="rsvp.Yes">
+					Yes, we are attending
+				</mat-radio-button>
+				<mat-radio-button class="radio-button"
+								  [value]="rsvp.No">
+					No, we will not be able to attend
+				</mat-radio-button>
+				<mat-radio-button class="radio-button"
+								  [value]="rsvp.Maybe">
+					We have not decided yet
+				</mat-radio-button>
+			</mat-radio-group>
+			<ng-container *ngIf="form && form.controls['rsvp'].value === rsvp.Maybe">
+				<section>
+					<mat-checkbox color="primary"
+								  [labelPosition]="'before'"
+								  formControlName="rsvpReminder"
+								  (change)="setEmailReminder($event)">Email us a reminder closer to RSVP date
+					</mat-checkbox>
+				</section>
+
+			</ng-container>
+		</div>
+	</ng-container>
+
+
+</ng-template>

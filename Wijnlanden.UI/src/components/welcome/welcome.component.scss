@@ -1,0 +1,53 @@
+@import '../../styles/variables';
+
+.welcome {
+	text-align: center;
+	font-family: 'Courier New', Courier, monospace;
+}
+
+.form {
+	text-align: center;
+	.full-width {
+		margin-top: 30px;
+		width: 80%;
+	}
+}
+
+.center {
+	text-align: center;
+}
+
+.logo {
+	width: 250px;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	width: 50%;
+}
+
+.header {
+	margin-top: 50px !important;
+}
+
+mat-card-actions {
+	text-align: center;
+	button {
+		width: 80%;
+	}
+}
+.spacer {
+	height: 150px;
+}
+
+.test {
+	height: 100%;
+	// position: absolute;
+	// left: 50%;
+	// top: 50%;
+	// transform: translate(-50%, -90%);
+	// border: 5px solid #f1d97f;
+	// border-radius: 10px;
+	// padding: 10px 10px 20px 10px;
+	// max-width: 300px;
+	// width: 100%;
+}

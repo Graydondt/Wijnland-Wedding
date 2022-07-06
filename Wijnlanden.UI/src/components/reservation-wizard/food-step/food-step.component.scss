@@ -1,0 +1,27 @@
+@import '../reservation-wizard.component.scss';
+
+ul {
+	padding-left: 0;
+	&.canapes {
+		li {
+			list-style-type: none;
+			text-align: center;
+		}
+	}
+
+	li {
+		list-style-type: none;
+
+		.description {
+			white-space: initial;
+		}
+	}
+}
+
+.disabled {
+	color: #0000008a;
+}
+
+h3 {
+	text-align: center;
+}

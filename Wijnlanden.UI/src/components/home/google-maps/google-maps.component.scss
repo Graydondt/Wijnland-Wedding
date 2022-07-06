@@ -1,0 +1,6 @@
+@import '../../../styles/variables';
+
+.test {
+	border: 3px solid map-get($Weijnland-accent, 400);
+	border-radius: 5px;
+}

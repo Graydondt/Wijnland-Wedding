@@ -1,0 +1,41 @@
+<div class="center">
+	<section class="label">
+		LET US KNOW WHO?
+	</section>
+	<mat-divider></mat-divider>
+	<div class="spacer"></div>
+	<div mat-dialog-content>
+		<form [formGroup]="data">
+			<mat-form-field appearance="standard">
+				<mat-label>Name</mat-label>
+				<input matInput
+					   type="text"
+					   placeholder="John"
+					   formControlName="firstName">
+				<mat-error *ngIf="hasError('firstName','required',data)">
+					Name is <strong>required</strong>
+				</mat-error>
+			</mat-form-field>
+			<mat-form-field appearance="standard">
+				<mat-label>Surname</mat-label>
+				<input matInput
+					   type="text"
+					   placeholder="Doe"
+					   formControlName="lastName">
+				<mat-error *ngIf="hasError('firstName','required',data)">
+					Surname is <strong>required</strong>
+				</mat-error>
+			</mat-form-field>
+		</form>
+	</div>
+	<div mat-dialog-actions
+		 align='end'>
+		<button mat-button
+				(click)="onNoClick()">Cancel</button>
+		<button mat-button
+				[disabled]="!data.valid"
+				[mat-dialog-close]="data"
+				cdkFocusInitial>Add</button>
+	</div>
+
+</div>

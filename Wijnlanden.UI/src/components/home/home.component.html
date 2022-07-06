@@ -1,0 +1,195 @@
+<ng-container *ngIf="guest$|async as guest">
+	<app-navigation-bar [menuItems]="menuItems"></app-navigation-bar>
+	<div class="content-top">
+		<div class="content">
+			<div scrollable
+				 class="main">
+
+				<!-- About -->
+				<mat-card offsetTop
+						  class="example-card">
+					<mat-card-header>
+						<img mat-card-avatar
+							 src="https://www.freeiconspng.com/thumbs/information-icon/information-icon-5.png"
+							 class="example-header-image">
+						<mat-card-title>About</mat-card-title>
+						<mat-card-subtitle>Welcome to our wedding catalogue {{guest.name}}</mat-card-subtitle>
+					</mat-card-header>
+					<img mat-card-image
+						 src="../../assets/images/about-image.jpeg"
+						 alt="Photo of a Graydon and Cindi">
+					<mat-card-content>
+						<div class="center">
+							<section class="header">
+								HOW LONG SHOULD I WAIT?
+							</section>
+
+							<mat-divider></mat-divider>
+							<div class="spacer"></div>
+							<section class="details">
+								<span>
+									<p>
+										<i><strong>{{daysTill}}</strong></i>
+									</p>
+								</span>
+							</section>
+							<mat-divider></mat-divider>
+						</div>
+					</mat-card-content>
+					<mat-card-actions>
+						<div class="center">
+							<button mat-flat-button
+									color="accent"
+									(click)="navigate('/#/profile/reservation/'+ guest.code)">
+								<!-- <mat-icon>folder_shared</mat-icon> -->
+								Change my RSVP
+							</button>
+						</div>
+					</mat-card-actions>
+				</mat-card>
+
+				<div class="spacer"></div>
+
+				<!-- Results -->
+				<mat-card offsetTop
+						  class="example-card">
+					<mat-card-header>
+						<img mat-card-avatar
+							 src="../../assets/images/food-results-icon.png"
+							 class="example-header-image">
+						<mat-card-title>Results</mat-card-title>
+						<mat-card-subtitle>Find out what other guests are voting for <br>
+							<i><small>*It only shows the top 3 choices per food type</small></i>
+						</mat-card-subtitle>
+					</mat-card-header>
+
+					<mat-card-content>
+						<ng-container *ngIf="foodResults$ |async as result">
+							<mat-form-field appearance="outline">
+								<mat-label>Food Type</mat-label>
+								<mat-select [(value)]="selectedFood">
+									<mat-option *ngFor="let food of foods"
+												[value]="food">
+										{{food}}
+									</mat-option>
+								</mat-select>
+							</mat-form-field>
+
+							<div [ngSwitch]="selectedFood">
+								<app-results *ngSwitchCase="'Canapés'"
+											 [Data]="canapesData"></app-results>
+								<app-results *ngSwitchCase="'Mains'"
+											 [Data]="mainsData"></app-results>
+								<app-results *ngSwitchCase="'Sides'"
+											 [Data]="sidesData"></app-results>
+								<app-results *ngSwitchCase="'Desserts'"
+											 [Data]="dessertsData"></app-results>
+							</div>
+						</ng-container>
+					</mat-card-content>
+
+					<mat-card-footer *ngIf="loadingFood">
+						<mat-progress-bar mode="indeterminate"></mat-progress-bar>
+					</mat-card-footer>
+
+
+				</mat-card>
+
+				<div class="spacer"></div>
+
+				<!-- Venue -->
+				<mat-card offsetTop
+						  class="example-card">
+					<mat-card-header>
+						<img mat-card-avatar
+							 (click)="openVenue()"
+							 src="../../assets/images/WU-logo.jpg"
+							 class="example-header-image">
+						<mat-card-title>Venue</mat-card-title>
+						<mat-card-subtitle>Wijnlanden Uitzicht Venue</mat-card-subtitle>
+					</mat-card-header>
+					<img mat-card-image
+						 src="https://pink-book.co.za/wp-content/uploads/2021/04/Wijnlanden-Uitzicht-Venue-01.jpg"
+						 alt="Photo of a Wijnlanden Uitzicht Venue">
+
+					<mat-card-content>
+						<app-venue-details></app-venue-details>
+						<div class="spacer"></div>
+						<app-google-maps [loadingNearbyPlaces$]="loadingNearbyPlaces$"
+										 [loadingMap$]="loadingMap$"></app-google-maps>
+					</mat-card-content>
+					<mat-card-footer *ngIf="loadingMap$|async">
+						<mat-progress-bar mode="indeterminate"></mat-progress-bar>
+					</mat-card-footer>
+				</mat-card>
+
+				<div class="spacer"></div>
+
+				<!-- Lodging -->
+				<mat-card offsetTop
+						  class="example-card">
+					<mat-card-header>
+						<img mat-card-avatar
+							 src="../../assets/images/lodging-icon.png"
+							 class="example-header-image">
+						<mat-card-title>Lodging</mat-card-title>
+						<mat-card-subtitle>
+							<p> Nearby places to stay at recommended by Google maps<br>
+								<i>
+									<small>*These suggestions has been automatically generated and is not reflective of
+										our suggestions</small>
+								</i>
+							</p>
+						</mat-card-subtitle>
+					</mat-card-header>
+					<mat-card-content>
+
+						<ng-container *ngIf="lodgingSource && columns.length">
+							<table mat-table
+								   matSort
+								   [dataSource]="lodgingSource"
+								   class="mat-elevation-z8 demo-table">
+								<ng-container *ngFor="let column of columns"
+											  [matColumnDef]="column.columnDef">
+									<th mat-header-cell
+										mat-sort-header
+										*matHeaderCellDef>
+										{{column.header}}
+									</th>
+									<td mat-cell
+										*matCellDef="let row">
+										<ng-container *ngIf="column.header === 'Action'">
+											<button style="padding: 0;"
+													mat-stroked-button
+													color="accent"
+													(click)="selectPlace(row)">
+												<mat-icon> directions</mat-icon>
+											</button>
+										</ng-container>
+										<ng-container *ngIf="column.header !== 'Action'">
+											{{column.cell(row)}}
+										</ng-container>
+
+									</td>
+								</ng-container>
+
+								<tr mat-header-row
+									*matHeaderRowDef="displayColumns"></tr>
+								<tr mat-row
+									cl
+									*matRowDef="let row; columns: displayColumns; "></tr>
+							</table>
+						</ng-container>
+
+					</mat-card-content>
+					<mat-card-footer *ngIf="loadingNearbyPlaces$ | async">
+						<mat-progress-bar mode="indeterminate"></mat-progress-bar>
+					</mat-card-footer>
+				</mat-card>
+
+			</div>
+
+		</div>
+	</div>
+
+</ng-container>

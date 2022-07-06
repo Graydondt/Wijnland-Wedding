@@ -1,0 +1,255 @@
+<div class="center">
+	<section class="header">
+		GUESS WHAT?
+	</section>
+
+	<mat-divider></mat-divider>
+
+	<section class="details">
+		<p><i><small>You get to vote for what you would like to see end up in your belly.</small> </i></p>
+	</section>
+
+	<section class="header">
+		NO WAY!? HOW DOES IT WORK?
+	</section>
+
+	<mat-divider></mat-divider>
+
+	<section class="details">
+		<ul>
+			<li>
+				<i>
+					<small>
+						Every food group has been categorised into 4 sections. <br>
+						<strong>(Canapés, Mains, Sides, Desserts)</strong>
+					</small>
+				</i>
+			</li>
+			<div class="spacer"></div>
+			<li>
+				<i>
+					<small>
+						Each section has a max amount you can vote on.<br>
+						<strong>(i.e. Votes 0 of 2)</strong>
+					</small>
+				</i>
+			</li>
+			<div class="spacer"></div>
+			<li>
+				<i>
+					<small>The top votes for each category will be served at the venue.</small>
+				</i>
+			</li>
+			<div class="spacer"></div>
+			<li>
+				<i>
+					<small>Click on the check box to cast your vote.<br>
+						Click on the same check box to change your choice.</small>
+				</i>
+			</li>
+			<div class="spacer"></div>
+			<li>
+				<i>
+					<small>You will be able to see what the others chose a little later on.</small>
+				</i>
+			</li>
+			<li>
+				<i>
+					<small>Don't worry, this choice isn't final, you can always come back and change it later.</small>
+				</i>
+			</li>
+		</ul>
+	</section>
+
+</div>
+<mat-divider></mat-divider>
+<div class="spacer"></div>
+<mat-accordion>
+	<!-- CANAPES -->
+	<mat-expansion-panel>
+		<mat-expansion-panel-header>
+			<mat-panel-title>
+				Canapés
+			</mat-panel-title>
+			<mat-panel-description>
+				<mat-error *ngIf="canapesError">
+					<strong>Votes </strong> {{getCanapeVotesString()}}
+				</mat-error>
+				<ng-container *ngIf="!canapesError">
+					<strong>Votes&nbsp;</strong> {{getCanapeVotesString()}}
+				</ng-container>
+			</mat-panel-description>
+		</mat-expansion-panel-header>
+		<ng-container *ngIf="canapesForm">
+			<form [formGroup]="canapesForm">
+				<ul *ngIf="canapeKeys && canapeKeys.length"
+					class="canapes">
+					<ng-container *ngFor="let key of canapeKeys">
+						<h3><b>
+								<mat-checkbox (change)="checkCanapes()"
+											  formControlName="{{key}}"
+											  color="primary"
+											  [labelPosition]="'after'">{{key}}
+								</mat-checkbox>
+							</b></h3>
+						<li>
+							<ng-container *ngIf="canapes[key]">
+								<ng-container *ngFor="let line of getDescriptionParts(canapes[key])">
+									<p [ngClass]="{disabled:!canapesForm.controls[key].value && !this.canapesError}"
+									   [innerHTML]="line"></p>
+								</ng-container>
+							</ng-container>
+						</li>
+						<mat-divider></mat-divider>
+					</ng-container>
+				</ul>
+			</form>
+
+		</ng-container>
+	</mat-expansion-panel>
+
+	<!-- MAINS -->
+	<mat-expansion-panel>
+		<mat-expansion-panel-header>
+			<mat-panel-title>
+				Mains
+			</mat-panel-title>
+			<mat-panel-description>
+				<mat-error *ngIf="mainsError">
+					<strong>Votes </strong> {{getMainsVotesString()}}
+				</mat-error>
+				<ng-container *ngIf="!mainsError">
+					<strong>Votes&nbsp;</strong> {{getMainsVotesString()}}
+				</ng-container>
+			</mat-panel-description>
+		</mat-expansion-panel-header>
+		<ng-container *ngIf="mainsForm">
+			<form [formGroup]="mainsForm">
+				<ul *ngIf="mainsKeys && mainsKeys.length">
+					<ng-container *ngFor="let key of mainsKeys">
+						<li>
+							<ng-container *ngIf="mains[key]">
+								<ng-container *ngFor="let line of getDescriptionParts(mains[key])">
+									<p>
+										<mat-checkbox color="primary"
+													  (change)="checkMains()"
+													  formControlName="{{key}}"
+													  [labelPosition]="'after'">
+											<div class="description"
+												 [innerHTML]="line"></div>
+										</mat-checkbox>
+									</p>
+								</ng-container>
+							</ng-container>
+						</li>
+					</ng-container>
+				</ul>
+			</form>
+
+		</ng-container>
+
+	</mat-expansion-panel>
+
+	<!-- SIDES -->
+	<mat-expansion-panel>
+		<mat-expansion-panel-header>
+			<mat-panel-title>
+				Sides
+			</mat-panel-title>
+			<mat-panel-description>
+				<mat-error *ngIf="sidesError">
+					<strong>Votes </strong> {{getSidesVotesString()}}
+				</mat-error>
+				<ng-container *ngIf="!sidesError">
+					<strong>Votes&nbsp;</strong> {{getSidesVotesString()}}
+				</ng-container>
+
+			</mat-panel-description>
+		</mat-expansion-panel-header>
+		<ng-container *ngIf="sidesForm">
+			<form [formGroup]="sidesForm">
+				<ul *ngIf="sidesKeys && sidesKeys.length">
+					<ng-container *ngFor="let key of sidesKeys">
+						<li>
+							<ng-container *ngIf="sides[key]">
+								<ng-container *ngFor="let line of getDescriptionParts(sides[key])">
+									<p>
+										<mat-checkbox (change)="checkSides()"
+													  formControlName="{{key}}"
+													  color="primary"
+													  [labelPosition]="'after'">
+											<div class="description"
+												 [innerHTML]="line"></div>
+										</mat-checkbox>
+									</p>
+								</ng-container>
+							</ng-container>
+						</li>
+					</ng-container>
+				</ul>
+			</form>
+		</ng-container>
+
+	</mat-expansion-panel>
+
+	<!-- DESSERT -->
+	<mat-expansion-panel>
+		<mat-expansion-panel-header>
+			<mat-panel-title>
+				Desserts
+			</mat-panel-title>
+			<mat-panel-description>
+				<mat-error *ngIf="dessertsError">
+					<strong>Votes </strong> {{getDessertsVotesString()}}
+				</mat-error>
+				<ng-container *ngIf="!dessertsError">
+					<strong>Votes&nbsp;</strong> {{getDessertsVotesString()}}
+				</ng-container>
+			</mat-panel-description>
+		</mat-expansion-panel-header>
+		<ng-container *ngIf="dessertsForm">
+			<form [formGroup]="dessertsForm">
+				<ul *ngIf="dessertKeys && dessertKeys.length">
+					<ng-container *ngFor="let key of dessertKeys">
+						<li>
+							<ng-container *ngIf="desserts[key]">
+								<ng-container *ngFor="let line of getDescriptionParts(desserts[key])">
+									<p>
+										<mat-checkbox (change)="checkDesserts()"
+													  formControlName="{{key}}"
+													  color="primary"
+													  [labelPosition]="'after'">
+											<div class="description"
+												 [innerHTML]="line"></div>
+										</mat-checkbox>
+									</p>
+								</ng-container>
+							</ng-container>
+						</li>
+					</ng-container>
+				</ul>
+			</form>
+		</ng-container>
+
+	</mat-expansion-panel>
+</mat-accordion>
+<div class="spacer"></div>
+
+<button *ngIf="guest && guest.done"
+		mat-raised-button
+		class="wizard-button white"
+		color="primary"
+		[disabled]="this.canapesError || this.mainsError || this.sidesError || this.dessertsError"
+		(click)="save()">Finish</button>
+
+<button *ngIf="guest && !guest.done"
+		mat-raised-button
+		class="wizard-button white"
+		[disabled]="this.canapesError || this.mainsError || this.sidesError || this.dessertsError"
+		color="primary"
+		(click)="applyChanges()"
+		matStepperNext>Next</button>
+
+<button mat-raised-button
+		class="wizard-button"
+		matStepperPrevious>Back</button>

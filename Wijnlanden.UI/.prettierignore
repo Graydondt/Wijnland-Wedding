@@ -1,0 +1,21 @@
+# Add files here to ignore them from prettier formatting
+node_modules
+dist
+coverage
+README.MD
+./external
+
+# prevent kendo/other vendor files from being picked up
+*.min.js
+*.min.css
+material.css
+
+# Until we fix issues with formatting scss
+# https://github.com/prettier/prettier/issues/4659#issuecomment-587370608
+# should be resolved by upgrading nx, which would allow nx to use our installed version
+# instead of their internal version
+# https://github.com/nrwl/nx/issues/1863
+*.scss
+
+# Because attribute wrapping is not supported
+*.html

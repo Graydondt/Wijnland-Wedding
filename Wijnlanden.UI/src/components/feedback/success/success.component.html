@@ -1,0 +1,26 @@
+<mat-card>
+	<mat-card-header>
+		<mat-card-title>
+			Verified
+		</mat-card-title>
+	</mat-card-header>
+	<mat-card-content>
+		<div class="success-checkmark">
+			<div class="check-icon">
+				<span class="icon-line line-tip"></span>
+				<span class="icon-line line-long"></span>
+				<div class="icon-circle"></div>
+				<div class="icon-fix"></div>
+			</div>
+		</div>
+		<p *ngIf="(person$|async) as person">Welldone {{person.name}} on getting this far</p>
+	</mat-card-content>
+	<mat-card-footer>
+
+	</mat-card-footer>
+	<mat-card-actions>
+		<button mat-raised-button
+				(click)="continue()"
+				color="primary">Continue</button>
+	</mat-card-actions>
+</mat-card>

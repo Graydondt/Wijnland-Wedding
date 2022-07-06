@@ -1,0 +1,43 @@
+<mat-toolbar color="accent"
+			 class="position-fixed">
+	<!-- MOBILE -->
+	<button mat-icon-button
+			[matMenuTriggerFor]="menu"
+			fxShow="true"
+			fxHide.gt-sm="true">
+		<mat-icon>menu</mat-icon>
+	</button>
+	<mat-menu #menu="matMenu">
+		<ng-container *ngFor="let menuItem of menuItems">
+			<button mat-menu-item
+					(click)="menuItem.action()">
+				<mat-icon>{{menuItem.icon}}</mat-icon> {{menuItem.title}}
+			</button>
+		</ng-container>
+		<button mat-menu-item
+				(click)="logOut()">
+			<mat-icon>logout</mat-icon>
+			Logout
+		</button>
+	</mat-menu>
+
+	<!-- LARGE -->
+	<div fxShow="true"
+		 fxHide.lt-md="true">
+		<ng-container *ngFor="let menuItem of menuItems">
+			<a mat-button
+			   (click)="menuItem.action()">
+				<mat-icon>{{menuItem.icon}}</mat-icon> {{menuItem.title}}
+			</a>
+		</ng-container>
+	</div>
+	<span class="spacer"></span>
+	<div fxShow="true"
+		 fxHide.lt-md="true">
+		<a mat-button
+		   (click)="logOut()">
+			<mat-icon>logout</mat-icon>
+			Logout
+		</a>
+	</div>
+</mat-toolbar>

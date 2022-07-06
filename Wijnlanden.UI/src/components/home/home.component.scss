@@ -1,0 +1,35 @@
+.main {
+	max-height: 80vh;
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+
+@media screen and (min-width: 575px) {
+	.content {
+		padding: 5px 0px 5px 5px;
+	}
+}
+
+table {
+	width: 100%;
+}
+
+img {
+	cursor: pointer;
+}
+
+.header {
+	margin: 12px 0;
+	font-size: large;
+}
+
+.details {
+	text-align: center;
+}
+
+app-google-maps {
+	align-items: center;
+	display: flex;
+	flex-direction: column;
+	margin: 15px 0;
+}

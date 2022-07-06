@@ -1,0 +1,55 @@
+<div class="content-top">
+	<div class="content">
+		<div class="test">
+			<mat-card>
+				<mat-card-header class="center header">
+				</mat-card-header>
+				<img class="logo"
+					 mat-card-image
+					 src="../../assets/images/logo.png"
+					 alt="Wedding logo">
+				<mat-card-title class="welcome">
+					Welcome
+				</mat-card-title>
+				<mat-card-content>
+
+					<form class="form">
+						<mat-form-field class="full-width"
+										appearance="standard">
+							<mat-label>Your Code</mat-label>
+							<input type="text"
+								   matInput
+								   [formControl]="codeFormControl"
+								   placeholder="12345">
+							<mat-hint>Enter the code you received with your invite</mat-hint>
+							<mat-error
+									   *ngIf="(codeFormControl.hasError('maxlength') || codeFormControl.hasError('minlength')) && !codeFormControl.hasError('required')">
+								Please enter a valid code
+							</mat-error>
+							<mat-error
+									   *ngIf="codeFormControl.hasError('failedcode') &&!(codeFormControl.hasError('maxlength') || codeFormControl.hasError('minlength')) && !codeFormControl.hasError('required')">
+								I don't know who you <strong>think</strong> you are
+							</mat-error>
+							<mat-error *ngIf="codeFormControl.hasError('required')">
+								Code is <strong>required</strong>
+							</mat-error>
+						</mat-form-field>
+
+					</form>
+				</mat-card-content>
+				<mat-card-actions>
+					<button mat-raised-button
+							(click)="submit()"
+							type="submit"
+							[disabled]="!codeFormControl.valid"
+							color="accent">Lets begin</button>
+				</mat-card-actions>
+				<div class="spacer"></div>
+			</mat-card>
+
+		</div>
+	</div>
+</div>
+
+
+<router-outlet></router-outlet>

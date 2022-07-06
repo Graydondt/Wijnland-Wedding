@@ -1,0 +1,22 @@
+@import '../reservation-wizard.component.scss';
+
+.header {
+	margin: 12px 0;
+	font-size: large;
+}
+.question-header {
+	font-size: medium;
+}
+.option-value {
+	white-space: initial;
+	font-size: small;
+}
+.option {
+	margin-bottom: 5px;
+}
+.radio-group {
+	align-items: flex-start;
+	display: flex;
+	flex-direction: column;
+	margin: 15px 0;
+}

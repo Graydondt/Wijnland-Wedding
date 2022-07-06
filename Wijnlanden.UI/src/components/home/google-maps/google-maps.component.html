@@ -1,0 +1,14 @@
+<div class="test"
+	 *ngIf="apiLoaded">
+	<!-- <button mat-raised-button
+			(click)="showAllPlaces()">show</button> -->
+	<google-map *ngIf="parentDimensions"
+				[options]="options"
+				[height]="parentDimensions.height"
+				[width]="parentDimensions.width"
+				(mapInitialized)="mapLoaded()">
+		<map-marker *ngFor="let marker of pubMarkers"
+					[options]="marker">
+		</map-marker>
+	</google-map>
+</div>

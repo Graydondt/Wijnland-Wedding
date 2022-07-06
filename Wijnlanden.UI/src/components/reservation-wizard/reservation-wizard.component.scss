@@ -1,0 +1,38 @@
+:host {
+	::ng-deep {
+		.mat-step-header .mat-step-icon {
+			color: #fff;
+		}
+	}
+}
+
+.header {
+	margin: 12px 0;
+	font-size: large;
+}
+
+mat-card {
+	// max-height: 85vh;
+	// overflow-y: auto;
+}
+
+form {
+	mat-form-field {
+		width: 100%;
+	}
+	div {
+		button {
+			float: right;
+		}
+	}
+}
+table {
+	width: 100%;
+}
+
+.mat-form-field {
+	margin-top: 16px;
+}
+.wizard-button {
+	float: right;
+}

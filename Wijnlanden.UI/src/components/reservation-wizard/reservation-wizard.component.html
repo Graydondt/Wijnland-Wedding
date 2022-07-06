@@ -1,0 +1,40 @@
+<ng-container *ngIf="guest$|async as guest">
+	<ng-container *ngIf="step1 && step2">
+		<div class="content-top">
+			<div class="content">
+				<mat-stepper [linear]="true"
+							 [selectedIndex]="currentStep"
+							 #stepper
+							 labelPosition="bottom">
+
+					<ng-container *ngIf="guest">
+						<mat-step [stepControl]="step1"
+								  label="Welcome"
+								  class="testels">
+							<guest-step [form]="step1"
+										[guest]="guest"></guest-step>
+
+						</mat-step>
+					</ng-container>
+
+					<ng-container *ngIf="guest && guest.rsvp === rsvp.Yes">
+						<mat-step label="Food">
+							<food-step [guest]="guest"></food-step>
+						</mat-step>
+					</ng-container>
+
+					<ng-container *ngIf="guest && guest.rsvp === rsvp.Yes && !guest.done">
+						<mat-step label="Quiz">
+							<quiz-step [guest]="guest"></quiz-step>
+							<div>
+								<button mat-raised-button
+										class="wizard-button"
+										matStepperPrevious>Back</button>
+							</div>
+						</mat-step>
+					</ng-container>
+				</mat-stepper>
+			</div>
+		</div>
+	</ng-container>
+</ng-container>

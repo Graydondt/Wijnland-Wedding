@@ -1,0 +1,21 @@
+@import '../../styles/variables';
+
+.details {
+	text-align: center;
+	// color: whitesmoke;
+	font-family: 'Courier New', Courier, monospace;
+	// background-color: map-get($Weijnland-accent, 500);
+	// border: 2px solid map-get($Weijnland-accent, 500);
+	// border-radius: 10px;
+}
+
+.header {
+	margin: 12px 0;
+	font-size: large;
+}
+
+img {
+	padding: 15px;
+	width: 150px;
+	height: 150px;
+}
