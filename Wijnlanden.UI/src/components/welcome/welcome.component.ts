@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { UntypedFormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Rsvp } from 'src/classes/enums/rsvp';
 import { CodeService } from 'src/services/code.service';
@@ -12,7 +12,7 @@ import { LoggerService } from 'src/services/logger.service';
 	styleUrls: [ './welcome.component.scss' ]
 })
 export class WelcomeComponent implements OnInit, OnDestroy {
-	codeFormControl = new FormControl('', [ Validators.required, Validators.maxLength(5), Validators.minLength(5) ]);
+	codeFormControl = new UntypedFormControl('', [ Validators.required, Validators.maxLength(5), Validators.minLength(5) ]);
 	constructor(
 		private _router: Router,
 		private _feedback: FeedbackService,

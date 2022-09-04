@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialog } from '@angular/material/dialog';
 import { MatRadioChange } from '@angular/material/radio';
@@ -25,10 +25,10 @@ export class GuestStepComponent extends MaterialFormsBase implements OnInit {
 	rsvpForPartner = false;
 	showInclude = false;
 
-	@Input() form: FormGroup | undefined;
+	@Input() form: UntypedFormGroup | undefined;
 	@Input() guest: Guest | undefined;
 	constructor(
-		private _formBuilder: FormBuilder,
+		private _formBuilder: UntypedFormBuilder,
 		private _guestService: GuestService,
 		public dialog: MatDialog,
 		private _snackBar: MatSnackBar,
@@ -99,8 +99,8 @@ export class GuestStepComponent extends MaterialFormsBase implements OnInit {
 	}
 
 	openDialog(): void {
-		const firstName = new FormControl('', [ Validators.required ]);
-		const lastName = new FormControl('', [ Validators.required ]);
+		const firstName = new UntypedFormControl('', [ Validators.required ]);
+		const lastName = new UntypedFormControl('', [ Validators.required ]);
 
 		const form = this._formBuilder.group({ firstName, lastName });
 		if (form) {
@@ -111,7 +111,7 @@ export class GuestStepComponent extends MaterialFormsBase implements OnInit {
 				data: form
 			});
 
-			dialogRef.afterClosed().subscribe((result: FormGroup) => {
+			dialogRef.afterClosed().subscribe((result: UntypedFormGroup) => {
 				console.log('The dialog was closed', result);
 				if (result) {
 					const firstName = result.controls['firstName'].value;

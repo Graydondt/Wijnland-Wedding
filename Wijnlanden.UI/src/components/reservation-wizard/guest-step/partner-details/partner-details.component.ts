@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { MaterialFormsBase } from '../../base/material-forms-base';
@@ -12,7 +12,7 @@ import { MaterialFormsBase } from '../../base/material-forms-base';
 export class PartnerDetailsComponent extends MaterialFormsBase implements OnInit {
 	constructor(
 		public dialogRef: MatDialogRef<PartnerDetailsComponent>,
-		@Inject(MAT_DIALOG_DATA) public data: FormGroup
+		@Inject(MAT_DIALOG_DATA) public data: UntypedFormGroup
 	) {
 		super();
 	}

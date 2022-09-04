@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { firstValueFrom, Observable, tap } from 'rxjs';
 import { CustomValidators } from 'src/classes/custom-validators';
@@ -15,13 +15,13 @@ import { MaterialFormsBase } from './base/material-forms-base';
 	styleUrls: [ './reservation-wizard.component.scss' ]
 })
 export class ReservationWizardComponent extends MaterialFormsBase implements OnInit {
-	step1: FormGroup | undefined;
-	step2: FormGroup | undefined;
+	step1: UntypedFormGroup | undefined;
+	step2: UntypedFormGroup | undefined;
 	currentStep = 0;
 	rsvp = Rsvp;
 	guest$: Observable<Guest | undefined> | undefined;
 
-	constructor(private _fromBuilder: FormBuilder, private _authService: CodeService, private _route: ActivatedRoute) {
+	constructor(private _fromBuilder: UntypedFormBuilder, private _authService: CodeService, private _route: ActivatedRoute) {
 		super();
 	}
 
@@ -56,13 +56,13 @@ export class ReservationWizardComponent extends MaterialFormsBase implements OnI
 	}
 
 	private setupStep1(guest: Guest) {
-		const firstName = new FormControl({ value: '', disabled: true }, []);
-		const plusOne = new FormControl({ value: '', disabled: true }, []);
-		const rsvp = new FormControl('', [ Validators.required ]);
-		const rsvpReminder = new FormControl('', []);
+		const firstName = new UntypedFormControl({ value: '', disabled: true }, []);
+		const plusOne = new UntypedFormControl({ value: '', disabled: true }, []);
+		const rsvp = new UntypedFormControl('', [ Validators.required ]);
+		const rsvpReminder = new UntypedFormControl('', []);
 		if (!guest.done) {
-			const email = new FormControl('', [ Validators.required, Validators.email ]);
-			const confirmEmail = new FormControl('', [ Validators.required, CustomValidators.checkEmails ]);
+			const email = new UntypedFormControl('', [ Validators.required, Validators.email ]);
+			const confirmEmail = new UntypedFormControl('', [ Validators.required, CustomValidators.checkEmails ]);
 			this.step1 = this._fromBuilder.group({ firstName, plusOne, rsvp, rsvpReminder, email, confirmEmail });
 		} else {
 			this.step1 = this._fromBuilder.group({ firstName, plusOne, rsvp, rsvpReminder });
@@ -70,7 +70,7 @@ export class ReservationWizardComponent extends MaterialFormsBase implements OnI
 	}
 
 	private setupStep2() {
-		const email = new FormControl('', [ Validators.required, Validators.email ]);
+		const email = new UntypedFormControl('', [ Validators.required, Validators.email ]);
 		this.step2 = this._fromBuilder.group({ email });
 	}
 
