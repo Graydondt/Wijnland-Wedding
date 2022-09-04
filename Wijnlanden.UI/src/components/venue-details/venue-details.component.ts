@@ -1,4 +1,4 @@
-import { Template } from '@angular/compiler/src/render3/r3_ast';
+
 import { Component, Input, OnInit, TemplateRef } from '@angular/core';
 
 @Component({
