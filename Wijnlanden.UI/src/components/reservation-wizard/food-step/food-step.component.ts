@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Food } from 'src/classes/food';
 import { Guest } from 'src/classes/guest';
@@ -13,25 +13,25 @@ import { LoggerService } from 'src/services/logger.service';
 	styleUrls: [ './food-step.component.scss' ]
 })
 export class FoodStepComponent implements OnInit {
-	canapesForm: UntypedFormGroup | undefined;
+	canapesForm: FormGroup | undefined;
 	canapeKeys: string[] = [];
 	canapes: { [key: string]: string } = {};
 	canapesError = true;
 	readonly canapeMax = 2;
 
-	mainsForm: UntypedFormGroup | undefined;
+	mainsForm: FormGroup | undefined;
 	mainsKeys: string[] = [];
 	mains: { [key: string]: string } = {};
 	mainsError = true;
 	private readonly mainsMax = 5;
 
-	sidesForm: UntypedFormGroup | undefined;
+	sidesForm: FormGroup | undefined;
 	sidesKeys: string[] = [];
 	sides: { [key: string]: string } = {};
 	sidesError = true;
 	private readonly sidesMax = 6;
 
-	dessertsForm: UntypedFormGroup | undefined;
+	dessertsForm: FormGroup | undefined;
 	dessertKeys: string[] = [];
 	desserts: { [key: string]: string } = {};
 	dessertsError = true;
@@ -39,7 +39,7 @@ export class FoodStepComponent implements OnInit {
 
 	@Input() guest: Guest | undefined;
 	constructor(
-		private _builder: UntypedFormBuilder,
+		private _builder: FormBuilder,
 		private _feedback: FeedbackService,
 		private _authService: CodeService,
 		private _logger: LoggerService,
@@ -124,7 +124,7 @@ export class FoodStepComponent implements OnInit {
 		}
 	}
 
-	private findSelectedKeys(form: UntypedFormGroup): string[] {
+	private findSelectedKeys(form: FormGroup): string[] {
 		const keys = Object.keys(form.controls);
 		const selection: string[] = [];
 		for (const key of keys) {
@@ -135,7 +135,7 @@ export class FoodStepComponent implements OnInit {
 		return selection;
 	}
 
-	private checkTotal(form: UntypedFormGroup, allowed: number) {
+	private checkTotal(form: FormGroup, allowed: number) {
 		const selected: string[] = [];
 		const values: boolean[] = [];
 		const keys = Object.keys(form.controls);
@@ -219,10 +219,10 @@ export class FoodStepComponent implements OnInit {
 	private buildCanapes() {
 		this.canapeKeys = Object.keys(this.canapes);
 		const config: {
-			[key: string]: UntypedFormControl;
+			[key: string]: FormControl;
 		} = {};
 		this.canapeKeys.forEach((key) => {
-			config[key] = new UntypedFormControl();
+			config[key] = new FormControl();
 		});
 
 		this.canapesForm = this._builder.group(config);
@@ -232,10 +232,10 @@ export class FoodStepComponent implements OnInit {
 		this.mainsKeys = Object.keys(this.mains);
 
 		const config: {
-			[key: string]: UntypedFormControl;
+			[key: string]: FormControl;
 		} = {};
 		this.mainsKeys.forEach((key) => {
-			config[key] = new UntypedFormControl();
+			config[key] = new FormControl();
 		});
 
 		this.mainsForm = this._builder.group(config);
@@ -245,10 +245,10 @@ export class FoodStepComponent implements OnInit {
 		this.sidesKeys = Object.keys(this.sides);
 
 		const config: {
-			[key: string]: UntypedFormControl;
+			[key: string]: FormControl;
 		} = {};
 		this.sidesKeys.forEach((key) => {
-			config[key] = new UntypedFormControl();
+			config[key] = new FormControl();
 		});
 
 		this.sidesForm = this._builder.group(config);
@@ -258,10 +258,10 @@ export class FoodStepComponent implements OnInit {
 		this.dessertKeys = Object.keys(this.desserts);
 
 		const config: {
-			[key: string]: UntypedFormControl;
+			[key: string]: FormControl;
 		} = {};
 		this.dessertKeys.forEach((key) => {
-			config[key] = new UntypedFormControl();
+			config[key] = new FormControl();
 		});
 
 		this.dessertsForm = this._builder.group(config);
